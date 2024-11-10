@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منظم المصاريف</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(reg => console.log('Service Worker مسجل', reg))
+          .catch(err => console.error('Service Worker لم يسجل', err));
+      });
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <h2>منظم المصاريف</h2>
+      <nav>
+        <a href="#overview">الملخص</a>
+        <a href="#expenses">إضافة مصاريف</a>
+        <a href="#saved">المحفوظات</a>
+        <a href="#settings">الإعدادات</a>
+      </nav>
+    </aside>
+    <main class="main-content">
+      <section id="overview">
+        <h2>الملخص الشهري</h2>
+        <p>المتبقي من الأكل: <span id="remaining-food">0</span> ريال</p>
+        <p>المتبقي من البترول: <span id="remaining-fuel">0</span> ريال</p>
+        <p>المتبقي من المصروف الشهري: <span id="remaining-monthly">0</span> ريال</p>
+      </section>
+      <section id="expenses">
+        <h2>إضافة ميزانية ومصاريف</h2>
+
+        <!-- خانة الأكل -->
+        <form id="food-form">
+          <label for="food-budget">ميزانية الأكل:</label>
+          <input type="number" id="food-budget" oninput="setBudget('food')" placeholder="ادخل ميزانية الأكل">
+          <label for="food-amount">مصاريف الأكل:</label>
+          <input type="number" id="food-amount" required>
+          <button type="button" onclick="addExpense('food')">إضافة</button>
+        </form>
+
+        <!-- خانة البترول -->
+        <form id="fuel-form">
+          <label for="fuel-budget">ميزانية البترول:</label>
+          <input type="number" id="fuel-budget" oninput="setBudget('fuel')" placeholder="ادخل ميزانية البترول">
+          <label for="fuel-amount">مصاريف البترول:</label>
+          <input type="number" id="fuel-amount" required>
+          <button type="button" onclick="addExpense('fuel')">إضافة</button>
+        </form>
+
+        <!-- خانة المصروف الشهري -->
+        <form id="monthly-form">
+          <label for="monthly-budget">ميزانية المصروف الشهري:</label>
+          <input type="number" id="monthly-budget" oninput="setBudget('monthly')" placeholder="ادخل ميزانية المصروف">
+          <label for="monthly-amount">المصروف الشهري:</label>
+          <input type="number" id="monthly-amount" required>
+          <button type="button" onclick="addExpense('monthly')">إضافة</button>
+        </form>
+
+        <!-- زر حفظ المصاريف -->
+        <button onclick="saveExpenses()">حفظ المصاريف</button>
+
+        <ul id="expense-list"></ul>
+      </section>
+
+      <!-- قسم المحفوظات -->
+      <section id="saved">
+        <h2>المحفوظات</h2>
+        <ul id="saved-files-list"></ul>
+      </section>
+    </main>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
